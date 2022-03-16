@@ -255,7 +255,7 @@ contexts:
     - match: '\?'
       scope: keyword.operator.params.optional.rbs
 
-    - match: '({{word}}+)(:)'
+    - match: '({{word}}+)(:)(?=[^:])'
       captures:
         1: variable.parameter.function.keyword.rbs
         2: punctuation.separator.params.comma.rbs

@@ -182,6 +182,11 @@ type proc = ^(Integer foo, ?String, *untyped, a: String, ?b: top, **Symbol) -> v
           | ^() ?{ () -> void } -> void
 #               ^ keyword.operator.function.block.optional.rbs
 
+type proc2 = ^(Foo::Bar baz) -> void
+#              ^ variable.other.namespace.rbs
+#                 ^ punctuation.separator.type_name.colon2.rbs
+#                   ^ variable.other.type.class.rbs
+
 type singleton = singleton(Array)
 #                ^ keyword.other.singleton.rbs
 #                         ^ punctuation.separator.type.singleton.open.rbs
