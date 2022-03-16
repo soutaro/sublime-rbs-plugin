@@ -1,7 +1,7 @@
 # SYNTAX TEST "RBS.sublime-syntax"
 
 type a = Foo
-# <- keyword.other.type_alias.rbs
+# <- keyword.declaration.type_alias.rbs
 #    ^ entity.name.type_alias.rbs
 #      ^ keyword.operator.eq.rbs
 #        ^ variable.other.type.class.rbs

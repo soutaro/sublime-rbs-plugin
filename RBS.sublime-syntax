@@ -654,7 +654,7 @@ contexts:
       push:
         - type
         - colon
-        - class_name
+        - constant_name
         - namespace
 
     - match: '(?={{uident}})'
