@@ -1,0 +1,765 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/syntax.html
+name: RBS
+file_extensions: [rbs]
+scope: source.rbs
+variables:
+  qualified_constant: '{{namespace}}{{constant}}'
+  constant: '[A-Z]{{word}}*'
+
+  word: '[a-zA-Z0-9_]'
+  ident: '[a-zA-Z_]{{word}}*'
+  lident: '[a-z]{{word}}*'
+  uident: '[A-Z]{{word}}*'
+  _lident: '_{{lident}}'
+  _uident: '_{{uident}}'
+  namespace: '(::)?({{uident}}(::))*'
+
+  interface: '_[A-Z]{{word}}*'
+  any_character: '(?=\S)'
+  integer: '(?:\b\d+\b)|(?:[+-]?\d+\b)'
+  sq_string: '''[^'']*'''
+  dq_string: '"(?:[^"]|\\")*"'
+  at_ident: '@{{ident}}'
+  at2_ident: '@@{{ident}}'
+  gident: '\${{ident}}'
+  symbol_oprs: '\||&|/|%|~|`|\^|===|==|=~|!=|!~|!|<=>|<=|<<|<|>=|>>|>|-@|-|\+@|\+|\*\*|\*|\[\]=|\[\]'
+  symbol: ':(?:{{ident}}\b|{{sq_string}}|{{dq_string}}|{{at_ident}}\b|{{at2_ident}}\b|{{gident}}\b|{{symbol_oprs}})'
+  method_name: '(?:\b{{ident}}[?!]?)|{{symbol_oprs}}'
+  attribute: '{{ident}}'
+
+contexts:
+  prototype:
+    - include: comment
+
+    - include: annotation
+
+  annotation:
+    - match: '(%a\{)([^\}]*)(\})'
+      captures:
+        1: punctuation.definition.annotation.open.rbs
+        3: punctuation.definition.annotation.close.rbs
+        2: entity.other.annotation.rbs
+
+    - match: '(%a\[)([^\]]*)(\])'
+      captures:
+        1: punctuation.definition.annotation.open.rbs
+        3: punctuation.definition.annotation.close.rbs
+        2: entity.other.annotation.rbs
+
+    - match: '(%a\()([^\)]*)(\))'
+      captures:
+        1: punctuation.definition.annotation.open.rbs
+        3: punctuation.definition.annotation.close.rbs
+        2: entity.other.annotation.rbs
+
+    - match: '(%a\|)([^\|]*)(\|)'
+      captures:
+        1: punctuation.definition.annotation.open.rbs
+        3: punctuation.definition.annotation.close.rbs
+        2: entity.other.annotation.rbs
+  type:
+    # - meta_content_scope: type.rbs
+
+    - match: '{{any_character}}'
+      push:
+        - type_rhs
+        - optional_type
+        - simple_type
+      pop: true
+
+  type_rhs:
+    - match: '\|'
+      scope: keyword.operator.type.union.rbs
+      push: type
+
+    - match: '\&'
+      scope: keyword.operator.type.intersection.rbs
+      push: type
+
+    - match: '{{any_character}}'
+      pop: true
+
+  optional_type:
+    - match: '\?+'
+      scope: keyword.operator.type.optional.rbs
+      pop: true
+
+    - match: '{{any_character}}'
+      pop: true
+
+  namespace:
+    - match: '::'
+      scope: punctuation.separator.type_name.root.rbs
+
+    - match: '\b(({{uident}})(::))+'
+      captures:
+        2: variable.other.namespace.rbs
+        3: punctuation.separator.type_name.colon2.rbs
+      pop: true
+
+    - match: '{{any_character}}'
+      pop: true
+
+  type_type_name:
+    - match: '\b{{uident}}\b'
+      scope: variable.other.type.class.rbs
+      pop: true
+
+    - match: '\b{{lident}}\b'
+      scope: variable.other.type.alias.rbs
+      pop: true
+
+    - match: '\b{{_uident}}\b'
+      scope: variable.other.type.interface.rbs
+      pop: true
+
+  singleton_type_name:
+    - match: '\b{{uident}}\b'
+      scope: variable.other.type.singleton.name.rbs
+      pop: true
+
+  singleton_type:
+    - match: '\bsingleton\b'
+      scope: keyword.other.singleton.rbs
+      set:
+        - match: '\('
+          scope: punctuation.separator.type.singleton.open.rbs
+          push:
+            - singleton_type_name
+            - namespace
+
+        - match: '\)'
+          scope: punctuation.separator.type.singleton.close.rbs
+          pop: true
+
+  simple_type:
+    - match: '\b(void|nil|top|bot|bool|untyped|self|class|instance)\b'
+      scope: constant.language.base_type.rbs
+      pop: true
+
+    - match: '\btrue\b'
+      scope: constant.language.type.true.rbs
+      pop: true
+
+    - match: '\bfalse\b'
+      scope: constant.language.type.false.rbs
+      pop: true
+
+    - match: '{{symbol}}'
+      scope: constant.other.type.symbol.rbs
+      pop: true
+
+    - match: '{{dq_string}}'
+      scope: string.quoted.double.type.string.rbs
+      pop: true
+
+    - match: '{{sq_string}}'
+      scope: string.quoted.single.type.string.rbs
+      pop: true
+
+    - match: '{{integer}}'
+      scope: constant.numeric.integer.type.rbs
+      pop: true
+
+    - include: paren_type
+
+    - match: '(?=\bsingleton\b)'
+      set: singleton_type
+
+    - match: '(?=::)'
+      set:
+        - type_seq_opt
+        - type_type_name
+        - namespace
+
+    - match: '(?=({{uident}}|{{lident}}|{{_uident}}))'
+      set:
+        - type_seq_opt
+        - type_type_name
+        - namespace
+
+    - match: '(?=\[)'
+      set: type_seq
+
+    - match: '(?=\{)'
+      set: record_type
+
+    - match: '(?=\^)'
+      set: proc_type
+
+  proc_type:
+    - match: '\^'
+      scope: punctuation.definition.proc.symbol.rbs
+      set: function_type
+
+  function_type:
+    - match: ''
+      set:
+        - function_return_type
+        - function_block_opt
+        - function_params
+
+  function_return_type:
+    - match: '->'
+      scope: punctuation.separator.function.arrow.rbs
+      set:
+        - optional_type
+        - simple_type
+
+  function_block_opt:
+    - match: '(\?)({)'
+      captures:
+        1: keyword.operator.function.block.optional.rbs
+        2: punctuation.separator.function.block.open.rbs
+      push: function_type
+
+    - match: '{'
+      scope: punctuation.separator.function.block.open.rbs
+      push: function_type
+
+    - match: '}'
+      scope: punctuation.separator.function.block.close.rbs
+      pop: true
+
+    - match: '{{any_character}}'
+      pop: true
+
+  function_params:
+    - match: '\('
+      scope: punctuation.separator.function.params.open.rbs
+      push: function_param_list
+
+    - match: '\)'
+      scope: punctuation.separator.function.params.close.rbs
+
+    - match: '{{any_character}}'
+      pop: true
+
+  function_param_list_param:
+    - match: '{{word}}+'
+      scope: variable.parameter.function.name.rbs
+      pop: true
+
+    - match: '{{any_character}}'
+      pop: true
+
+  function_param_list:
+    - match: '(?=\))'
+      pop: true
+
+    - match: ','
+      scope: punctuation.separator.params.comma.rbs
+
+    - match: '\?'
+      scope: keyword.operator.params.optional.rbs
+
+    - match: '({{word}}+)(:)'
+      captures:
+        1: variable.parameter.function.keyword.rbs
+        2: punctuation.separator.params.comma.rbs
+      push:
+        - function_param_list_param
+        - type
+
+    - match: '\*\*'
+      scope: keyword.operator.params.doublesplat.rbs
+      push:
+        - function_param_list_param
+        - type
+
+    - match: '\*'
+      scope: keyword.operator.params.splat.rbs
+      push:
+        - function_param_list_param
+        - type
+
+    - match: '{{any_character}}'
+      push:
+        - function_param_list_param
+        - type
+
+  record_type:
+    - match: '\{'
+      scope: punctuation.separator.type.record.open.rbs
+      push:
+        - match: '\}'
+          scope: punctuation.separator.type.record.close.rbs
+          pop: 2
+
+        - match: ','
+          scope: punctuation.separator.type.record.comma.rbs
+
+        - match: '{{any_character}}'
+          push: record_type_element
+
+  record_type_element:
+    - match: '\b({{word}}+)(:)'
+      captures:
+        1: constant.other.type.record.key.rbs
+        2: punctuation.separator.type.record.colon.rbs
+      set: type
+
+    - match: '({{sq_string}})\s*(=>)'
+      captures:
+        1: string.quoted.single.type.record.key.rbs
+        2: punctuation.separator.type.record.rocket.rbs
+      set: type
+
+    - match: '({{dq_string}})\s*(=>)'
+      captures:
+        1: string.quoted.double.type.record.key.rbs
+        2: punctuation.separator.type.record.rocket.rbs
+      set: type
+
+    - match: '({{integer}})\s*(=>)'
+      captures:
+        1: constant.numeric.integer.type.record.key.rbs
+        2: punctuation.separator.type.record.rocket.rbs
+      set: type
+
+    - match: '({{symbol}})\s*(=>)'
+      captures:
+        1: constant.other.symbol.type.record.key.rbs
+        2: punctuation.separator.type.record.rocket.rbs
+      set: type
+
+  paren_type:
+    - match: '\('
+      scope: punctuation.separator.type.open.rbs
+      push:
+        - match: '\)'
+          scope: punctuation.separator.type.close.rbs
+          pop: 2
+
+        - match: '{{any_character}}'
+          push: type
+
+  type_seq:
+    - match: '\['
+      scope: punctuation.separator.type_seq.open.rbs
+      push:
+        - match: '\]'
+          scope: punctuation.separator.type_seq.close.rbs
+          pop: 2
+
+        - match: ','
+          scope: punctuation.separator.type_seq.comma.rbs
+
+        - match: '{{any_character}}'
+          push: type
+
+  type_seq_opt:
+    - match: '(?=\[)'
+      set: type_seq
+
+    - match: '{{any_character}}'
+      pop: true
+
+  upper_bound:
+    - match: '\b{{constant}}\b'
+      scope: support.class.rbs
+
+    - match: '\b{{interface}}\b'
+      scope: support.class.rbs
+
+    - match: '{{any_character}}'
+      pop: true
+
+  class_decl:
+    - match: '\bclass\b'
+      scope: keyword.declaration.class.rbs
+      push:
+        - members
+        - super_class_opt
+        - generic_params_opt
+        - class_name
+        - namespace
+
+  super_class_opt:
+    - match: '<'
+      scope: keyword.operator.super_class.rbs
+      push:
+        - type_seq_opt
+        - super_class_name
+        - namespace
+
+    - match: '{{any_character}}'
+      pop: true
+
+  super_class_name:
+    - match: '\b{{uident}}\b'
+      scope: variable.other.super_class.rbs
+      pop: true
+
+  members:
+    - match: '\bend\b'
+      scope: keyword.other.end.rbs
+      pop: true
+
+    - include: const_decl
+
+    - include: global_decl
+
+    - include: type_alias_decl
+
+    - include: module_decl
+
+    - include: class_decl
+
+    - include: interface_decl
+
+    - match: '\b(private|public)\b'
+      scope: keyword.other.member.visibility.rbs
+
+    - include: method_alias_member
+
+    - include: attribute_member
+
+    - include: ivar_member
+
+    - include: def_member
+
+    - include: mixin_member
+
+  interface_decl:
+    - match: '\binterface\b'
+      scope: keyword.declaration.interface.rbs
+      push:
+        - members
+        - generic_params_opt
+        - interface_name
+        - namespace
+
+  interface_name:
+    - match: '{{_uident}}\b'
+      scope: entity.name.interface.rbs
+      pop: true
+
+  mixin_member:
+    - match: '\b(prepend|include|extend)\b'
+      scope: keyword.other.mixin.rbs
+      push:
+        - type_seq_opt
+        - mixin_name
+        - namespace
+
+  mixin_name:
+    - match: '\b{{uident}}\b'
+      scope: variable.other.mixin.class.rbs
+      pop: true
+
+    - match: '{{_uident}}\b'
+      scope: variable.other.mixin.interface.rbs
+      pop: true
+
+  type_alias_decl:
+    - match: '\btype\b'
+      scope: keyword.declaration.type_alias.rbs
+      push:
+        - type
+        - eq
+        - generic_params_opt
+        - type_alias_name
+        - namespace
+
+  type_alias_name:
+    - match: '{{lident}}'
+      scope: 'entity.name.type_alias.rbs'
+      pop: true
+
+  eq:
+    - match: '='
+      scope: keyword.operator.eq.rbs
+      pop: true
+
+  generic_params_opt:
+    - match: '\['
+      scope: punctuation.definition.generics.open.rbs
+      set:
+        - match: '\]'
+          scope: punctuation.definition.generics.close.rbs
+          pop: true
+
+        - match: ','
+          scope: punctuation.separator.generics.comma.rbs
+
+        - match: '{{any_character}}'
+          push:
+            - generic_param_upper_bound
+            - generic_param_name
+
+    - match: '{{any_character}}'
+      pop: true
+
+  generic_param_name:
+    - match: '\b{{constant}}\b'
+      scope: variable.parameter.generics.rbs
+      pop: true
+
+    - match: '\bin\b'
+      scope: keyword.other.generics.in.rbs
+
+    - match: '\bout\b'
+      scope: keyword.other.generics.out.rbs
+
+    - match: '\bunchecked\b'
+      scope: keyword.other.generics.unchecked.rbs
+
+  generic_param_upper_bound:
+    - match: '<'
+      scope: keyword.operator.generics.upper_bound.rbs
+      set:
+        - type_seq_opt
+        - generic_param_upper_bound_name
+        - namespace
+
+    - match: '{{any_character}}'
+      pop: true
+
+  generic_param_upper_bound_name:
+    - match: '\b{{uident}}\b'
+      scope: variable.other.generics.upper_bound.class.rbs
+      pop: true
+
+    - match: '\b{{_uident}}\b'
+      scope: variable.other.generics.upper_bound.interface.rbs
+      pop: true
+
+  method_alias_member:
+    - match: '\balias\b'
+      scope: keyword.declaration.alias.rbs
+      push:
+        - method_alias_old
+        - method_alias_new
+
+  method_alias_new:
+    - match: '((\bself)(\.))?({{method_name}})'
+      captures:
+        2: variable.language.alias.self.rbs
+        3: punctuation.separator.alias.dot.rbs
+        4: entity.name.method_alias.rbs
+      pop: true
+
+  method_alias_old:
+    - match: '((\bself)(\.))?({{method_name}})'
+      captures:
+        2: variable.language.alias.self.rbs
+        3: punctuation.separator.alias.dot.rbs
+        4: variable.other.method_alias.rbs
+      pop: true
+
+  def_member:
+    - match: '\bdef\b'
+      scope: keyword.declaration.def.rbs
+      push:
+        - method_types
+        - colon
+        - method_name
+
+  method_types:
+    - match: '\.\.\.'
+      scope: keyword.operator.method_type.super.rbs
+      pop: true
+
+    - match: '{{any_character}}'
+      push:
+        - method_types2
+        - function_type
+        - generic_params_opt
+
+  method_types2:
+    - match: '\|'
+      scope: keyword.operator.method_type.overload.rbs
+      push: method_types
+
+    - match: '{{any_character}}'
+      pop: 2
+
+  method_name:
+    - match: '\b(self)(\.)({{method_name}})'
+      captures:
+        1: variable.language.def.self.rbs
+        2: punctuation.separator.def.dot.rbs
+        3: entity.name.method.rbs
+      pop: true
+
+    - match: '\b(self)(\?)(\.)({{method_name}})'
+      captures:
+        1: variable.language.def.self.rbs
+        2: keyword.operator.def.q.rbs
+        3: punctuation.separator.def.dot.rbs
+        4: entity.name.method.rbs
+      pop: true
+
+    - match: '{{method_name}}'
+      scope: entity.name.method.rbs
+      pop: true
+
+
+  ivar_member:
+    - match: '(?:(self)(\.))?({{at_ident}})\b'
+      captures:
+        1: variable.language.ivar.self.rbs
+        2: punctuation.separator.ivar.dot.rbs
+        3: entity.name.ivar.rbs
+      push:
+        - type
+        - colon
+
+    - match: '{{at2_ident}}\b'
+      scope: entity.name.class_var.rbs
+      push:
+        - type
+        - colon
+
+  attribute_member:
+    - match: '\b(attr_reader|attr_writer|attr_accessor)\b'
+      scope: keyword.declaration.attribute.rbs
+      push:
+        - type
+        - colon
+        - attribute_var
+        - attribute_name
+
+  attribute_name:
+    - match: '(?:(self)(\.))?({{attribute}})'
+      captures:
+        1: variable.language.attribute.self.rbs
+        2: punctuation.separator.attribute.dot.rbs
+        3: entity.name.attribute.rbs
+      pop: true
+
+  attribute_var:
+    - match: '(\()({{at_ident}})?(\))'
+      captures:
+        1: punctuation.definition.attribute.var.open.rbs
+        2: entity.name.ivar.rbs
+        3: punctuation.definition.attribute.var.open.rbs
+
+    - match: '{{any_character}}'
+      pop: true
+
+  comment:
+    - match: '#'
+      scope: punctuation.definition.comment.rbs
+      push:
+        - meta_scope: comment.line.rbs
+        - match: $
+          pop: true
+
+  const_decl:
+    - match: '(?=::)'
+      push:
+        - type
+        - colon
+        - class_name
+        - namespace
+
+    - match: '(?={{uident}})'
+      push:
+        - type
+        - colon
+        - constant_name
+        - namespace
+
+  colon:
+    - match: ':'
+      scope: punctuation.separator.colon.rbs
+      pop: true
+
+  constant_name:
+    - match: '\b{{uident}}\b'
+      scope: entity.name.constant.rbs
+      pop: true
+
+  global_decl:
+    - match: '{{gident}}\b'
+      scope: entity.name.global.rbs
+      set:
+        - type
+        - colon
+
+  module_decl:
+    - match: '\bmodule\b'
+      scope: keyword.declaration.module.rbs
+      push:
+        - members
+        - module_self_opt
+        - generic_params_opt
+        - class_name
+        - namespace
+
+  class_name:
+    - match: '\b{{uident}}\b'
+      scope: entity.name.class.rbs
+      pop: true
+
+  module_self_opt:
+    - match: ':'
+      scope: punctuation.definition.module_self.colon.rbs
+      set: module_self_seq
+
+    - match: '{{any_character}}'
+      pop: true
+
+  module_self_seq:
+    - match: '(?={{uident}})'
+      push:
+        - module_self_seq2
+        - type_seq_opt
+        - module_self_name
+        - namespace
+
+    - match: '(?={{_uident}})'
+      push:
+        - module_self_seq2
+        - type_seq_opt
+        - module_self_name
+        - namespace
+
+    - match: '(?=::)'
+      push:
+        - module_self_seq2
+        - type_seq_opt
+        - module_self_name
+        - namespace
+
+  module_self_seq2:
+    - match: ','
+      scope: punctuation.separator.module_self.comma.rbs
+      push: module_self_seq
+
+    - match: '{{any_character}}'
+      pop: 2
+
+  module_self_name:
+    - match: '\b{{uident}}\b'
+      scope: variable.other.module_self.class.rbs
+      pop: true
+
+    - match: '\b{{_uident}}\b'
+      scope: variable.other.module_self.interface.rbs
+      pop: true
+
+  main:
+    - include: interface_decl
+
+    - include: class_decl
+
+    - include: type_alias_decl
+
+    - include: const_decl
+
+    - include: global_decl
+
+    - include: module_decl
+
+  double_quoted_string:
+    - meta_scope: string.quoted.double.rbs
+    - match: '\\.'
+      scope: constant.character.escape.rbs
+    - match: '"'
+      scope: punctuation.definition.string.end.rbs
+      pop: true

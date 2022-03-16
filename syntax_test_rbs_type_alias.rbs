@@ -1,0 +1,52 @@
+# SYNTAX TEST "RBS.sublime-syntax"
+
+type a = untyped
+# <- keyword.declaration.type_alias.rbs
+#    ^ entity.name.type_alias.rbs
+#      ^ keyword.operator.eq.rbs
+
+type X::foo = void
+# <- keyword.declaration.type_alias.rbs
+#    ^ variable.other.namespace.rbs
+#     ^ punctuation.separator.type_name.colon2.rbs
+#       ^ entity.name.type_alias.rbs
+#           ^ keyword.operator.eq.rbs
+
+type foo[X] = X?
+# <- keyword.declaration.type_alias.rbs
+#    ^ entity.name.type_alias.rbs
+#       ^ punctuation.definition.generics.open.rbs
+#        ^ variable.parameter.generics.rbs
+#         ^ punctuation.definition.generics.close.rbs
+#           ^ keyword.operator.eq.rbs
+
+type foo[unchecked in out X] = X?
+# <- keyword.declaration.type_alias.rbs
+#    ^ entity.name.type_alias.rbs
+#       ^ punctuation.definition.generics.open.rbs
+#        ^ keyword.other.generics.unchecked.rbs
+#                  ^ keyword.other.generics.in.rbs
+#                     ^ keyword.other.generics.out.rbs
+#                         ^ variable.parameter.generics.rbs
+#                          ^ punctuation.definition.generics.close.rbs
+#                            ^ keyword.operator.eq.rbs
+
+type foo[X < Array[String], Y < ::Foo::_Bar] = X?
+# <- keyword.declaration.type_alias.rbs
+#    ^ entity.name.type_alias.rbs
+#       ^ punctuation.definition.generics.open.rbs
+#        ^ variable.parameter.generics.rbs
+#          ^ keyword.operator.generics.upper_bound.rbs
+#            ^ variable.other.generics.upper_bound.class.rbs
+#                 ^ punctuation.separator.type_seq.open.rbs
+#                  ^ variable.other.type.class.rbs
+#                        ^ punctuation.separator.type_seq.close.rbs
+#                         ^ punctuation.separator.generics.comma.rbs
+#                           ^ variable.parameter.generics.rbs
+#                             ^ keyword.operator.generics.upper_bound.rbs
+#                               ^ punctuation.separator.type_name.root.rbs
+#                                 ^ variable.other.namespace.rbs
+#                                    ^ punctuation.separator.type_name.colon2.rbs
+#                                      ^ variable.other.generics.upper_bound.interface.rbs
+#                                          ^ punctuation.definition.generics.close.rbs
+#                                            ^ keyword.operator.eq.rbs

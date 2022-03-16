@@ -1,0 +1,24 @@
+# SYNTAX TEST "RBS.sublime-syntax"
+
+Foo: untyped
+# <- entity.name.constant.rbs
+#  ^ punctuation.separator.colon.rbs
+#    ^ constant.language.base_type.rbs
+
+Bar::Baz: untyped
+# <- variable.other.namespace.rbs
+#  ^ punctuation.separator.type_name.colon2.rbs
+#    ^ entity.name.constant.rbs
+#       ^ punctuation.separator.colon.rbs
+#         ^ constant.language.base_type.rbs
+
+::Foo: void
+# <- punctuation.separator.type_name.root.rbs
+# ^ entity.name.constant.rbs
+#    ^ punctuation.separator.colon.rbs
+#      ^ constant.language.base_type.rbs
+
+$hello: untyped
+# <- entity.name.global.rbs
+#     ^ punctuation.separator.colon.rbs
+#       ^ constant.language.base_type.rbs

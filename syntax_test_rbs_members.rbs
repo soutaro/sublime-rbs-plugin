@@ -1,0 +1,108 @@
+# SYNTAX TEST "RBS.sublime-syntax"
+
+class Foo
+  private
+# ^ keyword.other.member.visibility.rbs
+
+  public
+# ^ keyword.other.member.visibility.rbs
+
+  alias foo bar
+# ^ keyword.declaration.alias.rbs
+#       ^ entity.name.method_alias.rbs
+#           ^ variable.other.method_alias.rbs
+
+  alias self.foo self.bar
+# ^ keyword.declaration.alias.rbs
+#       ^ variable.language.alias.self.rbs
+#           ^ punctuation.separator.alias.dot.rbs
+#            ^ entity.name.method_alias.rbs
+#                ^ variable.language.alias.self.rbs
+#                    ^ punctuation.separator.alias.dot.rbs
+#                     ^ variable.other.method_alias.rbs
+
+  attr_reader foo: String
+# ^ keyword.declaration.attribute.rbs
+#             ^ entity.name.attribute.rbs
+#                ^ punctuation.separator.colon.rbs
+
+  attr_writer self.baz (@foo): String
+# ^ keyword.declaration.attribute.rbs
+#             ^ variable.language.attribute.self.rbs
+#                 ^ punctuation.separator.attribute.dot.rbs
+#                  ^ entity.name.attribute.rbs
+#                      ^ punctuation.definition.attribute.var.open.rbs
+#                       ^ entity.name.ivar.rbs
+#                           ^ punctuation.definition.attribute.var.open.rbs
+#                            ^ punctuation.separator.colon.rbs
+
+  attr_accessor self.baz(): string
+# ^ keyword.declaration.attribute.rbs
+#               ^ variable.language.attribute.self.rbs
+#                   ^ punctuation.separator.attribute.dot.rbs
+#                    ^ entity.name.attribute.rbs
+#                       ^ punctuation.definition.attribute.var.open.rbs
+#                        ^ punctuation.definition.attribute.var.open.rbs
+#                         ^ punctuation.separator.colon.rbs
+
+  @size: bool
+# ^ entity.name.ivar.rbs
+#      ^ punctuation.separator.colon.rbs
+#        ^ constant.language.base_type.rbs
+
+  self.@size: untyped
+# ^ variable.language.ivar.self.rbs
+#     ^ punctuation.separator.ivar.dot.rbs
+#      ^ entity.name.ivar.rbs
+#           ^ punctuation.separator.colon.rbs
+#             ^ constant.language.base_type.rbs
+
+  @@name: void
+# ^ entity.name.class_var.rbs
+#       ^ punctuation.separator.colon.rbs
+#         ^ constant.language.base_type.rbs
+
+  def foo: () -> void
+# ^ keyword.declaration.def.rbs
+#     ^ entity.name.method.rbs
+#        ^ punctuation.separator.colon.rbs
+#          ^ punctuation.separator.function.params.open.rbs
+
+  def self?.hello: [A] () -> void | ...
+# ^ keyword.declaration.def.rbs
+#     ^ variable.language.def.self.rbs
+#         ^ keyword.operator.def.q.rbs
+#          ^ punctuation.separator.def.dot.rbs
+#           ^ entity.name.method.rbs
+#                  ^ punctuation.definition.generics.open.rbs
+#                      ^ punctuation.separator.function.params.open.rbs
+#                                 ^ keyword.operator.method_type.overload.rbs
+#                                   ^ keyword.operator.method_type.super.rbs
+
+  def self.hello: ...
+# ^ keyword.declaration.def.rbs
+#     ^ variable.language.def.self.rbs
+#         ^ punctuation.separator.def.dot.rbs
+#          ^ entity.name.method.rbs
+#                 ^ keyword.operator.method_type.super.rbs
+
+  include Foo
+# ^ keyword.other.mixin.rbs
+#         ^ variable.other.mixin.class.rbs
+
+  extend ::Foo[untyped]
+# ^ keyword.other.mixin.rbs
+#        ^ punctuation.separator.type_name.root.rbs
+#          ^ variable.other.mixin.class.rbs
+#             ^ punctuation.separator.type_seq.open.rbs
+
+  prepend Foo::_Bar
+# ^ keyword.other.mixin.rbs
+#         ^ variable.other.namespace.rbs
+#            ^ punctuation.separator.type_name.colon2.rbs
+#              ^ variable.other.mixin.interface.rbs
+
+  def []=: () -> void
+
+  alias foo []=
+end

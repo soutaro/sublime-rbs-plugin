@@ -1,0 +1,21 @@
+# SYNTAX TEST "RBS.sublime-syntax"
+
+%a{hogehoge}
+# <- punctuation.definition.annotation.open.rbs
+#  ^ entity.other.annotation.rbs
+#          ^ punctuation.definition.annotation.close.rbs
+
+%a[hello]
+# <- punctuation.definition.annotation.open.rbs
+#  ^ entity.other.annotation.rbs
+#       ^ punctuation.definition.annotation.close.rbs
+
+%a(annotate:rdoc:copy:ENV.[])
+# <- punctuation.definition.annotation.open.rbs
+#  ^ entity.other.annotation.rbs
+#                           ^ punctuation.definition.annotation.close.rbs
+
+%a|steep:todo|
+# <- punctuation.definition.annotation.open.rbs
+#  ^ entity.other.annotation.rbs
+#            ^ punctuation.definition.annotation.close.rbs

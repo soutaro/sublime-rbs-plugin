@@ -1,0 +1,202 @@
+# SYNTAX TEST "RBS.sublime-syntax"
+
+type a = Foo
+# <- keyword.other.type_alias.rbs
+#    ^ entity.name.type_alias.rbs
+#      ^ keyword.operator.eq.rbs
+#        ^ variable.other.type.class.rbs
+
+type a = Foo::Bar
+#        ^ variable.other.namespace.rbs
+#           ^ punctuation.separator.type_name.colon2.rbs
+#             ^ variable.other.type.class.rbs
+
+type b = ::Foo::_Baz
+#        ^ punctuation.separator.type_name.root.rbs
+#          ^ variable.other.namespace.rbs
+#             ^ punctuation.separator.type_name.colon2.rbs
+#               ^ variable.other.type.interface.rbs
+
+type b = (String::string)
+#        ^ punctuation.separator.type.open.rbs
+#                 ^ variable.other.type.alias.rbs
+#                       ^ punctuation.separator.type.close.rbs
+
+type g = Array[String]
+#        ^ variable.other.type.class.rbs
+#             ^ punctuation.separator.type_seq.open.rbs
+#              ^ variable.other.type.class.rbs
+#                    ^ punctuation.separator.type_seq.close.rbs
+
+type a = [Integer?] | []
+#        ^ punctuation.separator.type_seq.open.rbs
+#         ^ variable.other.type.class.rbs
+#                ^ keyword.operator.type.optional.rbs
+#                 ^ punctuation.separator.type_seq.close.rbs
+#                   ^ keyword.operator.type.union.rbs
+#                     ^ punctuation.separator.type_seq.open.rbs
+#                      ^ punctuation.separator.type_seq.close.rbs
+
+type z = bool | bot | class | nil | self | top | untyped | void | instance
+#        ^ constant.language.base_type
+#               ^ constant.language.base_type
+#                     ^ constant.language.base_type
+#                             ^ constant.language.base_type
+#                                   ^ constant.language.base_type
+#                                          ^ constant.language.base_type
+#                                                ^ constant.language.base_type
+#                                                          ^ constant.language.base_type
+#                                                                 ^ constant.language.base_type
+
+type int = 10 | +12 | -23
+#          ^ constant.numeric.integer.type.rbs
+#               ^ constant.numeric.integer.type.rbs
+#                     ^ constant.numeric.integer.type.rbs
+
+type boolean = true | false
+#              ^ constant.language.type.true.rbs
+#                     ^ constant.language.type.false.rbs
+
+type strings = "violin" | 'viola'
+#              ^ string.quoted.double.type.string.rbs
+#                         ^ string.quoted.single.type.string.rbs
+
+type symbols = :foo | :"foo" | :'foo'
+#              ^ constant.other.type.symbol.rbs
+#                     ^ constant.other.type.symbol.rbs
+#                              ^ constant.other.type.symbol.rbs
+
+type symbols = :@foo
+#              ^ constant.other.type.symbol.rbs
+             | :@@bar
+#              ^ constant.other.type.symbol.rbs
+             | :$baz
+#              ^ constant.other.type.symbol.rbs
+             | :|
+#              ^ constant.other.type.symbol.rbs
+             | :&
+#              ^ constant.other.type.symbol.rbs
+             | :/
+#              ^ constant.other.type.symbol.rbs
+             | :%
+#              ^ constant.other.type.symbol.rbs
+             | :~
+#              ^ constant.other.type.symbol.rbs
+             | :`
+#              ^ constant.other.type.symbol.rbs
+             | :^
+#              ^ constant.other.type.symbol.rbs
+             | :==
+#              ^ constant.other.type.symbol.rbs
+             | :=~
+#              ^ constant.other.type.symbol.rbs
+             | :===
+#              ^ constant.other.type.symbol.rbs
+             | :!
+#              ^ constant.other.type.symbol.rbs
+             | :!=
+#              ^ constant.other.type.symbol.rbs
+             | :!~
+#              ^ constant.other.type.symbol.rbs
+             | :<
+#              ^ constant.other.type.symbol.rbs
+             | :<=
+#              ^ constant.other.type.symbol.rbs
+             | :<<
+#              ^ constant.other.type.symbol.rbs
+             | :<=>
+#              ^ constant.other.type.symbol.rbs
+             | :>
+#              ^ constant.other.type.symbol.rbs
+             | :>=
+#              ^ constant.other.type.symbol.rbs
+             | :>>
+#              ^ constant.other.type.symbol.rbs
+             | :-
+#              ^ constant.other.type.symbol.rbs
+             | :-@
+#              ^ constant.other.type.symbol.rbs
+             | :+
+#              ^ constant.other.type.symbol.rbs
+             | :+@
+#              ^ constant.other.type.symbol.rbs
+             | :*
+#              ^ constant.other.type.symbol.rbs
+             | :**
+#              ^ constant.other.type.symbol.rbs
+             | :[]
+#              ^ constant.other.type.symbol.rbs
+             | :[]=
+
+type record = {
+#             ^   punctuation.separator.type.record.open.rbs
+  id: Integer,
+# ^ constant.other.type.record.key.rbs
+#   ^ punctuation.separator.type.record.colon.rbs
+#     ^ variable.other.type.class.rbs
+#            ^ punctuation.separator.type.record.comma.rbs
+  10 => Integer,
+# ^ constant.numeric.integer.type.record.key.rbs
+#    ^ punctuation.separator.type.record.rocket.rbs
+#       ^ variable.other.type.class.rbs
+#              ^ punctuation.separator.type.record.comma.rbs
+  :foo => string,
+# ^ constant.other.symbol.type.record.key.rbs
+#      ^ punctuation.separator.type.record.rocket.rbs
+#         ^ variable.other.type.alias.rbs
+#               ^ punctuation.separator.type.record.comma.rbs
+  'hoge' => untyped,
+# ^ string.quoted.single.type.record.key.rbs
+#        ^ punctuation.separator.type.record.rocket.rbs
+#           ^ constant.language.base_type.rbs
+#                  ^ punctuation.separator.type.record.comma.rbs
+  "name" => String?
+# ^ string.quoted.double.type.record.key.rbs
+#        ^ punctuation.separator.type.record.rocket.rbs
+#           ^ variable.other.type.class.rbs
+#                 ^ keyword.operator.type.optional.rbs
+}
+
+type proc = ^(Integer foo, ?String, *untyped, a: String, ?b: top, **Symbol) -> void
+#           ^ punctuation.definition.proc.symbol.rbs
+#            ^ punctuation.separator.function.params.open.rbs
+#             ^ variable.other.type.class.rbs
+#                     ^ variable.parameter.function.name.rbs
+#                        ^ punctuation.separator.params.comma.rbs
+#                          ^ keyword.operator.params.optional.rbs
+#                                   ^ keyword.operator.params.splat.rbs
+#                                             ^ variable.parameter.function.keyword.rbs
+#                                              ^ punctuation.separator.params.comma.rbs
+#                                                        ^ keyword.operator.params.optional.rbs
+#                                                         ^ variable.parameter.function.keyword.rbs
+#                                                          ^ punctuation.separator.params.comma.rbs
+#                                                                 ^ keyword.operator.params.doublesplat.rbs
+#                                                                         ^ punctuation.separator.function.params.close.rbs
+#                                                                           ^ punctuation.separator.function.arrow.rbs
+          | ^() { () -> untyped } -> void
+#               ^ punctuation.separator.function.block.open.rbs
+#                 ^ punctuation.separator.function.params.open.rbs
+#                  ^ punctuation.separator.function.params.close.rbs
+#                               ^ punctuation.separator.function.block.close.rbs
+#                                 ^ punctuation.separator.function.arrow.rbs
+          | ^() ?{ () -> void } -> void
+#               ^ keyword.operator.function.block.optional.rbs
+
+type singleton = singleton(Array)
+#                ^ keyword.other.singleton.rbs
+#                         ^ punctuation.separator.type.singleton.open.rbs
+#                          ^ variable.other.type.singleton.name.rbs
+#                               ^ punctuation.separator.type.singleton.close.rbs
+               | singleton(Foo::Bar)
+#                ^ keyword.other.singleton.rbs
+#                         ^ punctuation.separator.type.singleton.open.rbs
+#                          ^ variable.other.namespace.rbs
+#                             ^ punctuation.separator.type_name.colon2.rbs
+#                               ^ variable.other.type.singleton.name.rbs
+#                                  ^ punctuation.separator.type.singleton.close.rbs
+               | singleton(::Hash)
+#                ^ keyword.other.singleton.rbs
+#                         ^ punctuation.separator.type.singleton.open.rbs
+#                          ^ punctuation.separator.type_name.root.rbs
+#                            ^ variable.other.type.singleton.name.rbs
+#                                ^ punctuation.separator.type.singleton.close.rbs

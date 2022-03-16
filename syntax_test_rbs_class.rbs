@@ -1,0 +1,23 @@
+# SYNTAX TEST "RBS.sublime-syntax"
+
+class Hello end
+# <- keyword.declaration.class.rbs
+#     ^ entity.name.class.rbs
+#           ^ keyword.other.end.rbs
+
+class Foo::Hoge[X] end
+# <- keyword.declaration.class.rbs
+#     ^ variable.other.namespace.rbs
+#        ^ punctuation.separator.type_name.colon2.rbs
+#          ^ entity.name.class.rbs
+#              ^ punctuation.definition.generics.open.rbs
+#                ^ punctuation.definition.generics.close.rbs
+#                  ^ keyword.other.end.rbs
+
+
+class Foo < String end
+# <- keyword.declaration.class.rbs
+#         ^ keyword.operator.super_class.rbs
+#           ^ variable.other.super_class.rbs
+#                  ^ keyword.other.end.rbs
+

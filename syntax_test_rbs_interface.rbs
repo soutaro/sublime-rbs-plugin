@@ -1,0 +1,15 @@
+# SYNTAX TEST "RBS.sublime-syntax"
+
+interface _Hello
+# <- keyword.declaration.interface.rbs
+#         ^ entity.name.interface.rbs
+end
+
+interface Foo::_World[T]
+# <- keyword.declaration.interface.rbs
+#         ^ variable.other.namespace.rbs
+#            ^ punctuation.separator.type_name.colon2.rbs
+#              ^ entity.name.interface.rbs
+#                    ^ punctuation.definition.generics.open.rbs
+#                      ^ punctuation.definition.generics.close.rbs
+end
