@@ -9,7 +9,7 @@ Try installing the plugin manually.
 
 ```
 $ cd $packages-dir
-$ git clone
+$ git clone https://github.com/soutaro/sublime-rbs-plugin.git
 ```
 
-Where `$packages-dir` can be found from `Preferences -> Browse Packages...` in the menu bar.
+You can find `$packages-dir` location from `Preferences -> Browse Packages...` in the menu bar.
