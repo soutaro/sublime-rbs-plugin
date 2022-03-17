@@ -1,0 +1,106 @@
+{
+  "scope": "source.rbs",
+  "completions": [
+    // { "trigger": "alias", "contents": "alias", "kind": "keyword" },
+    // { "trigger": "attr_accessor", "contents": "attr_accessor", "kind": "keyword" },
+    // { "trigger": "attr_reader", "contents": "attr_reader", "kind": "keyword" },
+    // { "trigger": "attr_writer", "contents": "attr_writer", "kind": "keyword" },
+    { "trigger": "bool", "contents": "bool", "kind": "keyword" },
+    { "trigger": "bot", "contents": "bot", "kind": "keyword" },
+    // { "trigger": "class", "contents": "class", "kind": "keyword" },
+    // { "trigger": "def", "contents": "def", "kind": "keyword" },
+    { "trigger": "end", "contents": "end", "kind": "keyword" },
+    // { "trigger": "extend", "contents": "extend", "kind": "keyword" },
+    { "trigger": "false", "contents": "false", "kind": "keyword" },
+    { "trigger": "in", "contents": "in", "kind": "keyword" },
+    // { "trigger": "include", "contents": "include", "kind": "keyword" },
+    { "trigger": "instance", "contents": "instance", "kind": "keyword" },
+    // { "trigger": "interface", "contents": "interface", "kind": "keyword" },
+    // { "trigger": "module", "contents": "module", "kind": "keyword" },
+    { "trigger": "nil", "contents": "nil", "kind": "keyword" },
+    { "trigger": "out", "contents": "out", "kind": "keyword" },
+    // { "trigger": "prepend", "contents": "prepend", "kind": "keyword" },
+    { "trigger": "private", "contents": "private", "kind": "keyword" },
+    { "trigger": "public", "contents": "public", "kind": "keyword" },
+    { "trigger": "self", "contents": "self", "kind": "keyword" },
+    // { "trigger": "singleton", "contents": "singleton", "kind": "keyword" },
+    { "trigger": "top", "contents": "top", "kind": "keyword" },
+    { "trigger": "true", "contents": "true", "kind": "keyword" },
+    { "trigger": "type", "contents": "type", "kind": "keyword" },
+    { "trigger": "unchecked", "contents": "unchecked", "kind": "keyword" },
+    { "trigger": "untyped", "contents": "untyped", "kind": "keyword" },
+    { "trigger": "void", "contents": "void", "kind": "keyword" },
+    {
+      "trigger": "interface",
+      "contents": "interface ${1:_InterfaceName}\nend",
+      "kind": "snippet",
+      "details": "Interface definition"
+    },
+    {
+      "trigger": "class",
+      "contents": "class ${1:ClassName}\nend",
+      "kind": "snippet",
+      "details": "Class definition"
+    },
+    {
+      "trigger": "module",
+      "contents": "module ${1:ModuleName}\nend",
+      "kind": "snippet",
+      "details": "Module definition"
+    },
+    {
+      "trigger": "attr_reader",
+      "contents": "attr_reader ${1:name}: ${2:type}",
+      "kind": "snippet",
+      "details": "<code>attr_reader</code> member"
+    },
+    {
+      "trigger": "attr_writer",
+      "contents": "attr_writer ${1:name}: ${2:type}",
+      "kind": "snippet",
+      "details": "<code>attr_writer</code> member"
+    },
+    {
+      "trigger": "attr_accessor",
+      "contents": "attr_accessor ${1:name}: ${2:type}",
+      "kind": "snippet",
+      "details": "<code>attr_accessor</code> member"
+    },
+    {
+      "trigger": "include",
+      "contents": "include ${1:ModuleOrInterface}",
+      "kind": "snippet",
+      "details": "<code>include</code> member"
+    },
+    {
+      "trigger": "prepend",
+      "contents": "prepend ${1:Module}",
+      "kind": "snippet",
+      "details": "<code>prepend</code> member"
+    },
+    {
+      "trigger": "extend",
+      "contents": "extend ${1:ModuleOrInterface}",
+      "kind": "snippet",
+      "details": "<code>extend</code> member"
+    },
+    {
+      "trigger": "alias",
+      "contents": "alias ${1:new_name} ${2:old_name}",
+      "kind": "snippet",
+      "details": "Method alias"
+    },
+    {
+      "trigger": "def",
+      "contents": "def ${1:method_name}: ",
+      "kind": "snippet",
+      "details": "Method definition"
+    },
+    {
+      "trigger": "singleton",
+      "contents": "singleton(${1:TypeName})",
+      "kind": "snippet",
+      "details": "Singleton type"
+    },
+  ]
+}
