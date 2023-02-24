@@ -40,13 +40,29 @@
       "trigger": "class",
       "contents": "class ${1:ClassName}\nend",
       "kind": "snippet",
-      "details": "Class definition"
+      "annotation": "Class definition",
+      "details": "<code>class</code> C <code>end</code>"
+    },
+    {
+      "trigger": "class",
+      "contents": "class ${1:ClassName} = ${2:ClassName}",
+      "kind": "snippet",
+      "annotation": "Class alias definition",
+      "details": "<code>class</code> C1 <code>=</code> C2"
     },
     {
       "trigger": "module",
       "contents": "module ${1:ModuleName}\nend",
       "kind": "snippet",
-      "details": "Module definition"
+      "annotation": "Module definition",
+      "details": "<code>module</code> M <code>end</code>"
+    },
+    {
+      "trigger": "module",
+      "contents": "module ${1:ModuleName} = ${2:ModuleName}",
+      "kind": "snippet",
+      "annotation": "Module alias definition",
+      "details": "<code>module</code> M1 <code>=</code> M2"
     },
     {
       "trigger": "attr_reader",
