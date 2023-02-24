@@ -118,5 +118,26 @@
       "kind": "snippet",
       "details": "Singleton type"
     },
+    {
+      "trigger": "use",
+      "contents": "use ${1:TypeName}",
+      "kind": "snippet",
+      "annotation": "Single use directive",
+      "details": "<code>use</code> T"
+    },
+    {
+      "trigger": "use",
+      "contents": "use ${1:TypeName} as ${2:TypeName}",
+      "kind": "snippet",
+      "annotation": "Use alias directive",
+      "details": "<code>use</code> T <code>as</code> T"
+    },
+    {
+      "trigger": "use",
+      "contents": "use ${1:TypeName}::*",
+      "kind": "snippet",
+      "annotation": "Wildcard use directive",
+      "details": "<code>use</code> T<code>::*</code>"
+    },
   ]
 }
