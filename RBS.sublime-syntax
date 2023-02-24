@@ -761,7 +761,59 @@ contexts:
       scope: variable.other.module_self.interface.rbs
       pop: true
 
+  use_directive:
+    - match: '\buse\b'
+      scope: keyword.other.use.rbs
+      set:
+        - use_clause_continue_opt
+        - use_clause
+
+  use_clause:
+    - match: '(::)?((\b{{uident}}\b)(::))+(\*)'
+      captures: 
+        1: punctuation.separator.type_name.root.rbs
+        3: variable.other.namespace.rbs
+        4: punctuation.separator.type_name.colon2.rbs
+        5: keyword.other.use.wildcard.rbs
+      pop: true
+
+    - match: '(::)?((\b{{uident}}\b)(::))*((\b{{uident}}\b)|(\b{{lident}}\b)|(\b{{_uident}}\b)|(\b{{_lident}}\b))'
+      captures: 
+        1: punctuation.separator.type_name.root.rbs
+        3: variable.other.namespace.rbs
+        4: punctuation.separator.type_name.colon2.rbs
+        6: variable.other.use.name.class.rbs
+        7: variable.other.use.name.type_alias.rbs
+        8: variable.other.use.name.interface.rbs
+        9: variable.other.use.name.interface.rbs
+      set: single_use_clause
+
+  single_use_clause:
+    - match: '\b(as)\s+(({{uident}}\b)|({{lident}}\b)|({{_uident}}\b)|({{_lident}}\b))'
+      captures:
+        1: keyword.other.as.rbs
+        3: entity.name.class.rbs
+        4: entity.name.type_alias.rbs
+        5: entity.name.interface.rbs
+        6: entity.name.interface.rbs
+      pop: true
+
+    - match: '{{any_character}}'
+      pop: true
+
+  use_clause_continue_opt:
+    - match: ','
+      scope: punctuation.separator.use.comma.rbs
+      set: 
+        - use_clause_continue_opt
+        - use_clause
+
+    - match: '{{any_character}}'
+      pop: true
+
   main:
+    - include: use_directive
+
     - include: interface_decl
 
     - include: class_decl

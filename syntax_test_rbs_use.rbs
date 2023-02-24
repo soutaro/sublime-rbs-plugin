@@ -1,0 +1,39 @@
+# SYNTAX TEST "RBS.sublime-syntax"
+
+use Foo, Foo::Bar, foo, _Foo, _foo 
+# <- keyword.other.use.rbs
+#   ^ variable.other.use.name.class.rbs
+#      ^ punctuation.separator.use.comma.rbs
+#        ^ variable.other.namespace.rbs
+#           ^ punctuation.separator.type_name.colon2.rbs
+#             ^ variable.other.use.name.class.rbs
+#                ^ punctuation.separator.use.comma.rbs
+#                  ^ variable.other.use.name.type_alias.rbs
+#                     ^ punctuation.separator.use.comma.rbs
+#                       ^ variable.other.use.name.interface.rbs
+#                           ^ punctuation.separator.use.comma.rbs
+#                             ^ variable.other.use.name.interface.rbs
+
+use Bar as Baz, bar as baz, _Bar as _Baz, _bar as _baz
+# <- keyword.other.use.rbs
+#   ^ variable.other.use.name.class.rbs
+#       ^ keyword.other.as.rbs
+#          ^ entity.name.class.rbs
+#             ^ punctuation.separator.use.comma.rbs
+#               ^ variable.other.use.name.type_alias.rbs
+#                   ^ keyword.other.as.rbs
+#                      ^ entity.name.type_alias.rbs
+#                         ^ punctuation.separator.use.comma.rbs
+#                           ^ variable.other.use.name.interface.rbs
+#                                ^ keyword.other.as.rbs
+#                                   ^ entity.name.interface.rbs
+#                                       ^ punctuation.separator.use.comma.rbs
+#                                         ^ variable.other.use.name.interface.rbs
+#                                              ^ keyword.other.as.rbs
+#                                                 ^ entity.name.interface.rbs
+
+use Foo::*
+# <- keyword.other.use.rbs
+#   ^ variable.other.namespace.rbs
+#      ^ punctuation.separator.type_name.colon2.rbs
+#        ^ keyword.other.use.wildcard.rbs
