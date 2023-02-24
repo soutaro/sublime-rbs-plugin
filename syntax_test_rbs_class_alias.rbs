@@ -1,0 +1,13 @@
+# SYNTAX TEST "RBS.sublime-syntax"
+
+class Hello = World
+# <- keyword.declaration.class.rbs
+#     ^ entity.name.class.rbs
+#           ^ keyword.operator.eq.rbs
+#             ^ variable.other.class_alias.class.rbs
+
+module Foo = Bar
+# <- keyword.declaration.module.rbs
+#      ^ entity.name.class.rbs
+#          ^ keyword.operator.eq.rbs
+#            ^ variable.other.class_alias.class.rbs

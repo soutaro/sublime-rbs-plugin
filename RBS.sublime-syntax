@@ -374,8 +374,25 @@ contexts:
         - members
         - super_class_opt
         - generic_params_opt
+        - class_alias_and_return
         - class_name
         - namespace
+
+  class_alias_and_return:
+    - match: '='
+      scope: keyword.operator.eq.rbs
+      push:
+        - class_name_alias_decl
+        - namespace
+      pop: 4
+
+    - match: '{{any_character}}'
+      pop: true
+
+  class_name_alias_decl:
+    - match: '\b{{uident}}\b'
+      scope: variable.other.class_alias.class.rbs
+      pop: true
 
   super_class_opt:
     - match: '<'
@@ -688,6 +705,7 @@ contexts:
         - members
         - module_self_opt
         - generic_params_opt
+        - class_alias_and_return
         - class_name
         - namespace
 
