@@ -761,13 +761,6 @@ contexts:
       scope: variable.other.module_self.interface.rbs
       pop: true
 
-  use_directive:
-    - match: '\buse\b'
-      scope: keyword.other.use.rbs
-      set:
-        - use_clause_continue_opt
-        - use_clause
-
   use_clause:
     - match: '(::)?((\b{{uident}}\b)(::))+(\*)'
       captures: 
@@ -811,9 +804,7 @@ contexts:
     - match: '{{any_character}}'
       pop: true
 
-  main:
-    - include: use_directive
-
+  toplevel:
     - include: interface_decl
 
     - include: class_decl
@@ -825,6 +816,16 @@ contexts:
     - include: global_decl
 
     - include: module_decl
+
+  main:
+    - match: '\buse\b'
+      scope: keyword.other.use.rbs
+      set:
+        - use_clause_continue_opt
+        - use_clause
+
+    - match: '{{any_character}}'    
+      set: toplevel
 
   double_quoted_string:
     - meta_scope: string.quoted.double.rbs
