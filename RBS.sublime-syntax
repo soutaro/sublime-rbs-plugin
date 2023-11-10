@@ -135,7 +135,7 @@ contexts:
           pop: true
 
   simple_type:
-    - match: '\b(void|nil|top|bot|bool|untyped|self|class|instance)\b'
+    - match: '\b(void|nil|top|bot|bool|untyped|self|class|instance|__todo__)\b'
       scope: constant.language.base_type.rbs
       pop: true
 

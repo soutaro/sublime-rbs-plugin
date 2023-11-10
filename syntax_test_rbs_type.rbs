@@ -37,7 +37,7 @@ type a = [Integer?] | []
 #                     ^ punctuation.separator.type_seq.open.rbs
 #                      ^ punctuation.separator.type_seq.close.rbs
 
-type z = bool | bot | class | nil | self | top | untyped | void | instance
+type z = bool | bot | class | nil | self | top | untyped | void | instance | __todo__
 #        ^ constant.language.base_type
 #               ^ constant.language.base_type
 #                     ^ constant.language.base_type
@@ -47,6 +47,7 @@ type z = bool | bot | class | nil | self | top | untyped | void | instance
 #                                                ^ constant.language.base_type
 #                                                          ^ constant.language.base_type
 #                                                                 ^ constant.language.base_type
+#                                                                            ^ constant.language.base_type
 
 type int = 10 | +12 | -23
 #          ^ constant.numeric.integer.type.rbs

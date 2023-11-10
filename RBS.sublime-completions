@@ -30,6 +30,7 @@
     { "trigger": "unchecked", "contents": "unchecked", "kind": "keyword" },
     { "trigger": "untyped", "contents": "untyped", "kind": "keyword" },
     { "trigger": "void", "contents": "void", "kind": "keyword" },
+    { "trigger": "__todo__", "contents": "__todo__", "kind": "keyword" },
     {
       "trigger": "interface",
       "contents": "interface ${1:_InterfaceName}\nend",
