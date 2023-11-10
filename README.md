@@ -4,8 +4,11 @@ This plugin provides syntax definition of RBS.
 
 ![Screenshot](./screenshot.png?raw=true)
 
-This package is not published yet on PackageControl.
-Try installing the plugin manually.
+You can install the package through [PackageControl](https://packagecontrol.io/).
+
+## Installing it manually
+
+You can install the plugin manually.
 
 ```
 $ cd $packages-dir
