@@ -18,14 +18,14 @@ variables:
 
   interface: '_[A-Z]{{word}}*'
   any_character: '(?=\S)'
-  integer: '(?:\b\d+\b)|(?:[+-]?\d+\b)'
+  integer: '(?:\b\d(?:\d|_(?!_))*\b)|(?:[+-]?\d(?:\d|_(?!_))*\b)'
   sq_string: '''[^'']*'''
   dq_string: '"(?:[^"]|\\")*"'
   at_ident: '@{{ident}}'
   at2_ident: '@@{{ident}}'
   gident: '\${{ident}}'
   symbol_oprs: '\||&|/|%|~|`|\^|===|==|=~|!=|!~|!|<=>|<=|<<|<|>=|>>|>|-@|-|\+@|\+|\*\*|\*|\[\]=|\[\]'
-  symbol: ':(?:{{ident}}\b|{{sq_string}}|{{dq_string}}|{{at_ident}}\b|{{at2_ident}}\b|{{gident}}\b|{{symbol_oprs}})'
+  symbol: ':(?:{{ident}}(?:[?!]|\b)|{{sq_string}}|{{dq_string}}|{{at_ident}}\b|{{at2_ident}}\b|{{gident}}\b|{{symbol_oprs}})'
   method_name: '(?:\b{{ident}}[?!]?)|{{symbol_oprs}}'
   attribute: '{{ident}}'
 
