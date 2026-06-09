@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 # See http://www.sublimetext.com/docs/syntax.html
-name: RBS
+name: RBSY
 file_extensions: [rbs]
 scope: source.rbs
 variables:
@@ -531,6 +531,10 @@ contexts:
         - type_seq_opt
         - generic_param_upper_bound_name
         - namespace
+
+    - match: '='
+      scope: keyword.operator.generics.default.rbs
+      set: type
 
     - match: '{{any_character}}'
       pop: true
